@@ -35,7 +35,7 @@ public class registroController {
         return service.nuevoRegistro(r);
     }
 
-    @GetMapping
+    @GetMapping("/idStuff")
     public Long ultId(){
         return service.idUltimo();
     }
