@@ -9,4 +9,5 @@ public interface registroService {
     List<registro> listarRegistros();
     registro nuevoRegistro(registro r);
     void actualizarRegistro(Long id, LocalTime fin);
+    Long idUltimo();
 }

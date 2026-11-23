@@ -38,4 +38,11 @@ public class registroServiceImpl implements registroService {
             rr.save(r);
         }
     }
+
+    @Override
+    public Long idUltimo() {
+        return rr.findTopByEstadoOrderByIdDesc("FUGA")
+                .map(registro::getId)
+                .orElse(null);
+    }
 }
