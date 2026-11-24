@@ -2,6 +2,7 @@ package com.example.waterProyect.service.serviceImpl;
 
 import com.example.waterProyect.model.registro;
 import com.example.waterProyect.repository.registroRepository;
+import com.example.waterProyect.service.NotificationService;
 import com.example.waterProyect.service.registroService;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,14 @@ import java.util.List;
 public class registroServiceImpl implements registroService {
 
     private final registroRepository rr;
+    private final NotificationService notificacionService;
 
-    public registroServiceImpl(registroRepository rr){
+    public registroServiceImpl(
+            registroRepository rr,
+            NotificationService notificacionService
+    ) {
         this.rr = rr;
+        this.notificacionService = notificacionService;
     }
 
     @Override
@@ -24,7 +30,15 @@ public class registroServiceImpl implements registroService {
 
     @Override
     public registro nuevoRegistro(registro r) {
-        return rr.save(r);
+
+        registro nuevo = rr.save(r);
+
+        notificacionService.enviarNotificacion(
+                "🚨 ¡Fuga detectada!",
+                "WaterControl ha detectado una fuga de agua."
+        );
+
+        return nuevo;
     }
 
     @Override
@@ -35,7 +49,13 @@ public class registroServiceImpl implements registroService {
         if (r != null) {
             r.setFin(fin);
             r.setEstado("Fuga Terminada");
+
             rr.save(r);
+
+            notificacionService.enviarNotificacion(
+                    "✅ Fuga finalizada",
+                    "La fuga de agua ha sido controlada."
+            );
         }
     }
 
