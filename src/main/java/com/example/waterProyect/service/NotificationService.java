@@ -17,6 +17,7 @@ public class NotificationService {
         this.repository = repository;
     }
 
+
     public void enviarNotificacion(String titulo, String cuerpo) {
 
         for (Dispositivo dispositivo : repository.findAll()) {
@@ -32,14 +33,19 @@ public class NotificationService {
                         )
                         .build();
 
-                String respuesta = FirebaseMessaging.getInstance()
-                        .send(mensaje);
+                String respuesta = FirebaseMessaging.getInstance().send(mensaje);
 
-                System.out.println("Notificación enviada: " + respuesta);
+                System.out.println("FCM OK: " + respuesta);
+
+            } catch (com.google.firebase.messaging.FirebaseMessagingException e) {
+
+                System.out.println("ERROR CODE: " + e.getErrorCode());
+                System.out.println("ERROR MESSAGE: " + e.getMessage());
 
             } catch (Exception e) {
-                System.out.println("Error al enviar notificación: " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }
+
 }
