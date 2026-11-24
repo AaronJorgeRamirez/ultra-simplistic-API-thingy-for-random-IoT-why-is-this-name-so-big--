@@ -5,7 +5,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import org.springframework.context.annotation.Configuration;
 import jakarta.annotation.PostConstruct;
-
+import com.google.api.client.googleapis.util.Utils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -30,6 +30,7 @@ public class FirebaseConfig {
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(stream))
+                .setHttpTransport(Utils.getDefaultTransport())
                 .build();
 
         if (FirebaseApp.getApps().isEmpty()) {
